@@ -10,7 +10,7 @@ bot = telebot.TeleBot(token)
 print("Бот запустився... Поїхали!")
 
 
-error_message = "You entered incorrect data.\nTry another command..."
+error_message = "You entered incorrect data.\nTry another command or see /help for more info."
 
 welcome_message =   "*Welcome to FirstBot42!*\n\nHere is the list of commands:\n\n" + \
                     "/average - Get an average value of entered numbers\n" + \
@@ -146,7 +146,7 @@ def active_command(message):
     elif randint_mode:
         find_randint(message)
     else:
-        bot.send_message(message.chat.id, "I didn't catch that...\nTry another command", reply_markup=markup)
+        bot.send_message(message.chat.id, "I didn't catch that...\nTry another command or see /help for more info.", reply_markup=markup)
 
     cancel_all()
 
