@@ -12,7 +12,7 @@ print("Бот запустився... Поїхали!")
 
 error_message = "You entered incorrect data.\nTry another command or see /help for more info."
 
-welcome_message =   "*Welcome to FirstBot42!*\n\nHere is the list of commands:\n\n" + \
+welcome_message =   "*Welcome to First42Bot!*\n\nHere is the list of commands:\n\n" + \
                     "/average - Get an average value of entered numbers\n" + \
                     "/coin - Flip a coin\n" + \
                     "/dice - Roll the dice\n" + \
