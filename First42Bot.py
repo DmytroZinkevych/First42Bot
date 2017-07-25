@@ -12,14 +12,14 @@ print("Бот запустився... Поїхали!")
 
 error_message = "You entered incorrect data.\nTry another command or see /help for more info."
 
-welcome_message =   "*Welcome to First42Bot!*\n\nHere is the list of commands:\n\n" + \
+welcome_message = "*Welcome to First42Bot!*\n\nHere is the list of commands:\n\n" + \
                     "/average - Get an average value of entered numbers\n" + \
                     "/coin - Flip a coin\n" + \
                     "/dice - Roll the dice\n" + \
                     "/randint - Get a random integer from the specified interval\n\n" + \
                     "/help - Get help"
 
-help_message =  "*Commands:*\n\n" + \
+help_message = "*Commands:*\n\n" + \
                 "/average - *Get an average value of entered numbers*\n" + \
                 "Just enter as much numbers as you want. " + \
                 "Numbers are real and should be separated by only one space. You shouldn't specify their amount.\n" + \
@@ -32,9 +32,8 @@ help_message =  "*Commands:*\n\n" + \
                 "/help - *Get help*"
 
 
-randint_mode = False
-average_mode = False
-
+average_mode_list = []
+randint_mode_list = []
 
 markup = types.ReplyKeyboardMarkup(True)
 markup.row('/coin', '/average')
@@ -43,10 +42,17 @@ markup.row('/help')
 hide_markup = types.ReplyKeyboardRemove()
 
 
-def cancel_all():
-    global randint_mode, average_mode
-    randint_mode = False
-    average_mode = False
+def cancel_all(chat_id):
+    global average_mode_list, randint_mode_list
+    while average_mode_list.count(chat_id) > 0:
+        average_mode_list.remove(chat_id)
+    while randint_mode_list.count(chat_id) > 0:
+        randint_mode_list.remove(chat_id)
+
+
+def put_in_mode(mode_list, chat_id):
+    if mode_list.count(chat_id) == 0:
+        mode_list.append(chat_id)
 
 
 def find_average(message):
@@ -91,15 +97,15 @@ def find_randint(message):
 
 @bot.message_handler(commands=['average'])
 def average_activate(message):
-    global average_mode
-    cancel_all()
-    average_mode = True
+    global average_mode_list
+    cancel_all(message.chat.id)
+    put_in_mode(average_mode_list, message.chat.id)
     bot.send_message(message.chat.id, "Enter numbers (separated by 1 space):", reply_markup=hide_markup)
 
 
 @bot.message_handler(commands=['coin'])
 def trow_coin(message):
-    cancel_all()
+    cancel_all(message.chat.id)
     sides = ['Heads', 'Tails']
     random.seed(datetime.now().microsecond)
     bot.send_message(message.chat.id, random.choice(sides), reply_markup=markup)
@@ -107,7 +113,7 @@ def trow_coin(message):
 
 @bot.message_handler(commands=['dice'])
 def trow_dice(message):
-    cancel_all()
+    cancel_all(message.chat.id)
     now = datetime.now()
     random.seed((now.microsecond ** now.second) // now.minute)
     a = random.randrange(1, 7)
@@ -117,21 +123,22 @@ def trow_dice(message):
 
 @bot.message_handler(commands=['help'])
 def help_handle(message):
-    cancel_all()
+    cancel_all(message.chat.id)
     bot.send_message(message.chat.id, help_message, parse_mode='Markdown', reply_markup=markup)
 
 
 @bot.message_handler(commands=['randint'])
 def randint_activate(message):
-    global randint_mode
-    cancel_all()
-    randint_mode = True
-    bot.send_message(message.chat.id, "Enter minimal and maximal possible integers (separated by 1 space):", reply_markup=hide_markup)
+    global randint_mode_list
+    cancel_all(message.chat.id)
+    put_in_mode(randint_mode_list, message.chat.id)
+    bot.send_message(message.chat.id, "Enter minimal and maximal possible integers (separated by 1 space):",
+                     reply_markup=hide_markup)
 
 
 @bot.message_handler(commands=['start'])
 def com_handle(message):
-    cancel_all()
+    cancel_all(message.chat.id)
     bot.send_message(message.chat.id, welcome_message, parse_mode='Markdown', reply_markup=markup)
 
 # --------------------------- Command handlers ----------------------------------
@@ -139,16 +146,15 @@ def com_handle(message):
 
 @bot.message_handler(content_types=["text"])
 def active_command(message):
-    global average_mode, randint_mode
-
-    if average_mode:
+    global average_mode_list, randint_mode_list
+    if average_mode_list.count(message.chat.id) > 0:
         find_average(message)
-    elif randint_mode:
+    elif randint_mode_list.count(message.chat.id) > 0:
         find_randint(message)
     else:
-        bot.send_message(message.chat.id, "I didn't catch that...\nTry another command or see /help for more info.", reply_markup=markup)
-
-    cancel_all()
+        bot.send_message(message.chat.id, "I didn't catch that...\nTry another command  or see /help for more info.",
+                         reply_markup=markup)
+    cancel_all(message.chat.id)
 
 
 if __name__ == '__main__':
