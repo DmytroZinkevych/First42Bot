@@ -24,7 +24,7 @@ help_message = "*Commands:*\n\n" + \
                 "Just enter as much numbers as you want. " + \
                 "Numbers are real and should be separated by only one space. You shouldn't specify their amount.\n" + \
                 "\n/coin - *Gives result of flipping a coin*\n\n" + \
-                "/dice - *Gives result of rolling two dices*\n\n" + \
+                "/dice - *Gives result of rolling two dice*\n\n" + \
                 "/randint - *Get a random integer from the specified interval*\n" + \
                 "You should write two integers which define an interval (and are included into it). " + \
                 "First is a minimum and second is a maximum desirable number. " + \
