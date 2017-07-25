@@ -112,7 +112,7 @@ def trow_coin(message):
 
 
 @bot.message_handler(commands=['dice'])
-def trow_dice(message):
+def roll_the_dice(message):
     cancel_all(message.chat.id)
     now = datetime.now()
     random.seed((now.microsecond ** now.second) // now.minute)
