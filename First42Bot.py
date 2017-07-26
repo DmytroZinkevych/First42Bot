@@ -115,7 +115,7 @@ def trow_coin(message):
 def roll_the_dice(message):
     cancel_all(message.chat.id)
     now = datetime.now()
-    random.seed((now.microsecond ** (now.second + 1)) // now.minute + 1)
+    random.seed((now.microsecond ** (now.second + 1)) // now.minute + 2)
     a = random.randrange(1, 7)
     b = secrets.randbelow(6) + 1
     bot.send_message(message.chat.id, str(a) + ' ' + str(b), reply_markup=markup)
