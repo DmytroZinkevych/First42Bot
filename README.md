@@ -1,5 +1,6 @@
 # First42Bot
 *My first Telegram bot*<br/><br/>
+https://t.me/First42Bot<br/>
 
 First42Bot gives a pseudo-random generated result of flipping a coin, throwing 2 dice and choosing a number from specified interval. Also bot has a function of finding an average value of entered numbers.
 
