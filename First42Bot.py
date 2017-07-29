@@ -4,7 +4,7 @@ import secrets
 from telebot import types
 from datetime import datetime
 
-token = "REPLACE_IT_WITH_A_TOKEN_OF_THE_BOT"
+token = "269387695:AAGjFrCy9U9D_nlBdp-_uFdPCGZK1NhT5kA"
 bot = telebot.TeleBot(token)
 
 print("Бот запустився... Поїхали!")
@@ -97,6 +97,7 @@ def find_randint(message):
 
 @bot.message_handler(commands=['average'])
 def average_activate(message):
+    print(datetime.now(), "  ", message.chat.id, " Used average")
     global average_mode_list
     cancel_all(message.chat.id)
     put_in_mode(average_mode_list, message.chat.id)
@@ -105,6 +106,7 @@ def average_activate(message):
 
 @bot.message_handler(commands=['coin'])
 def trow_coin(message):
+    print(datetime.now(), "  ", message.chat.id, " Used coin")
     cancel_all(message.chat.id)
     sides = ['Heads', 'Tails']
     random.seed(datetime.now().microsecond)
@@ -113,6 +115,7 @@ def trow_coin(message):
 
 @bot.message_handler(commands=['dice'])
 def roll_the_dice(message):
+    print(datetime.now(), "  ", message.chat.id, " Used dice")
     cancel_all(message.chat.id)
     now = datetime.now()
     random.seed((now.microsecond * message.chat.id) // (now.second + 2))
@@ -123,12 +126,14 @@ def roll_the_dice(message):
 
 @bot.message_handler(commands=['help'])
 def help_handle(message):
+    print(datetime.now(), "  ", message.chat.id, " Used help")
     cancel_all(message.chat.id)
     bot.send_message(message.chat.id, help_message, parse_mode='Markdown', reply_markup=markup)
 
 
 @bot.message_handler(commands=['randint'])
 def randint_activate(message):
+    print(datetime.now(), "  ", message.chat.id, " Used randint")
     global randint_mode_list
     cancel_all(message.chat.id)
     put_in_mode(randint_mode_list, message.chat.id)
@@ -138,6 +143,7 @@ def randint_activate(message):
 
 @bot.message_handler(commands=['start'])
 def com_handle(message):
+    print(datetime.now(), "  ", message.chat.id, " Used average")
     cancel_all(message.chat.id)
     bot.send_message(message.chat.id, welcome_message, parse_mode='Markdown', reply_markup=markup)
 
@@ -146,6 +152,7 @@ def com_handle(message):
 
 @bot.message_handler(content_types=["text"])
 def active_command(message):
+    print(datetime.now(), "  ", message.chat.id, " Sent text")
     global average_mode_list, randint_mode_list
     if average_mode_list.count(message.chat.id) > 0:
         find_average(message)
