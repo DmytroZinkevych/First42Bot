@@ -29,7 +29,9 @@ help_message = "*Commands:*\n\n" + \
                 "You should write two integers which define an interval (and are included into it). " + \
                 "First is a minimum and second is a maximum desirable number. " + \
                 "Second number should be greater than first.\n\n" + \
-                "/help - *Get help*"
+                "/help - *Get help*" + \
+                "\n\n\n*About*\n\n" + \
+                "Made by Dmytro Zinkevych on Python. Source code available at\ngithub.com/DmytroZinkevych/First42Bot"
 
 
 average_mode_list = []
