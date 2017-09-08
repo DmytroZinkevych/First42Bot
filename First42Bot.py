@@ -3,11 +3,12 @@ import random
 import secrets
 from telebot import types
 from datetime import datetime
+from time import ctime
 
-token = "269387695:AAGjFrCy9U9D_nlBdp-_uFdPCGZK1NhT5kA"
+token = "REPLACE_IT_WITH_A_TOKEN_OF_THE_BOT"
 bot = telebot.TeleBot(token)
 
-print("Бот запустився... Поїхали!")
+print(datetime.now(), "  Бот запустився... Поїхали!\n")
 
 
 error_message = "You entered incorrect data.\nTry another command or see /help for more info."
@@ -95,11 +96,15 @@ def find_randint(message):
     bot.send_message(message.chat.id, "Random integer = " + str(r), reply_markup=markup)
 
 
+def print_message_info(message, info_text):
+    print(ctime(message.date), "   ", message.chat.id, "   ", info_text)
+
+
 # --------------------------- Command handlers ----------------------------------
 
 @bot.message_handler(commands=['average'])
 def average_activate(message):
-    print(datetime.now(), "  ", message.chat.id, " Used average")
+    print_message_info(message, "Used average")
     global average_mode_list
     cancel_all(message.chat.id)
     put_in_mode(average_mode_list, message.chat.id)
@@ -108,7 +113,7 @@ def average_activate(message):
 
 @bot.message_handler(commands=['coin'])
 def trow_coin(message):
-    print(datetime.now(), "  ", message.chat.id, " Used coin")
+    print_message_info(message, "Used coin")
     cancel_all(message.chat.id)
     sides = ['Heads', 'Tails']
     random.seed(datetime.now().microsecond)
@@ -117,7 +122,7 @@ def trow_coin(message):
 
 @bot.message_handler(commands=['dice'])
 def roll_the_dice(message):
-    print(datetime.now(), "  ", message.chat.id, " Used dice")
+    print_message_info(message, "Used dice")
     cancel_all(message.chat.id)
     now = datetime.now()
     random.seed((now.microsecond * message.chat.id) // (now.second + 2))
@@ -128,14 +133,14 @@ def roll_the_dice(message):
 
 @bot.message_handler(commands=['help'])
 def help_handle(message):
-    print(datetime.now(), "  ", message.chat.id, " Used help")
+    print_message_info(message, "Used help")
     cancel_all(message.chat.id)
     bot.send_message(message.chat.id, help_message, parse_mode='Markdown', reply_markup=markup)
 
 
 @bot.message_handler(commands=['randint'])
 def randint_activate(message):
-    print(datetime.now(), "  ", message.chat.id, " Used randint")
+    print_message_info(message, "Used randint")
     global randint_mode_list
     cancel_all(message.chat.id)
     put_in_mode(randint_mode_list, message.chat.id)
@@ -145,7 +150,7 @@ def randint_activate(message):
 
 @bot.message_handler(commands=['start'])
 def com_handle(message):
-    print(datetime.now(), "  ", message.chat.id, " Used average")
+    print_message_info(message, "Used average")
     cancel_all(message.chat.id)
     bot.send_message(message.chat.id, welcome_message, parse_mode='Markdown', reply_markup=markup)
 
@@ -154,7 +159,7 @@ def com_handle(message):
 
 @bot.message_handler(content_types=["text"])
 def active_command(message):
-    print(datetime.now(), "  ", message.chat.id, " Sent text")
+    print_message_info(message, "Sent text")
     global average_mode_list, randint_mode_list
     if average_mode_list.count(message.chat.id) > 0:
         find_average(message)
